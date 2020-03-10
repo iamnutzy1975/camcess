@@ -17,7 +17,7 @@ from flask import Flask
 
 
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
-# called `app` in `main.py`.
+# called `app` in `cli-main.py`.
 app = Flask(__name__)
 
 

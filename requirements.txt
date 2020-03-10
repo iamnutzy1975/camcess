@@ -3,3 +3,7 @@
 functions-framework==1.2.0
 inject==3.4.0
 PyYAML==3.13
+#xlrd==1.0.0
+google-api-python-client==1.6.2
+#python-dateutil==2.6.0
+#createsend==4.2.1

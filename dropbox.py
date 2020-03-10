@@ -1,0 +1,1 @@
+TOKEN = 'ccm2-es6v3QAAAAAAACWt4gn5mkff-_Pue8WlkqypWSzSVQDxgmLtWKCV2ZmzFSj'  #gord.nuttall@gmail.com - camcess folder only
