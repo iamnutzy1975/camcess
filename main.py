@@ -1,3 +1,17 @@
+from di import container
+from services import IConfigService
+from services import ILoggerService
+from services import IEmailService
+
+config = container.instance(IConfigService)
+assert isinstance(config, IConfigService)
+
+logger = container.instance(ILoggerService)
+assert isinstance(logger, ILoggerService)
+
+email = container.instance(ILoggerService)
+assert isinstance(email, IEmailService)
+
 def gmailxfr(request):
     """Responds to any HTTP request.
     Args:

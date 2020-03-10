@@ -46,7 +46,7 @@ Thumbs.db
 #Pycharm
 
 *.ndb
-.idea
+.idea/
 # node
 node_modules/
 
