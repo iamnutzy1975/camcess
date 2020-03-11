@@ -12,13 +12,17 @@ SERVICE_ACCOUNT_CREDENTIALS_PATH = os.path.join(os.path.dirname(__file__), 'cred
 
 #Configure inbox to monitor
 EMAIL_ADDRESS_TO_MONITOR = 'go06041973nut@gmail.com'  #password for account is @m@z0namazon
-GMAIL_LABEL_INCOMING = 'camera1'
-GMAIL_LABEL_PROCESSED = 'camera1-done'
-INBOX_FILTER = 'label:'+GMAIL_LABEL_INCOMING
-INBOX_PURGING_FILTER = 'label:'+GMAIL_LABEL_PROCESSED + ' AND older_than:45d'
+GMAIL_LABEL_INCOMING_ROOT = 'camcess'
+GMAIL_LABEL_PROCESSED = 'attachmentsaved'
+INBOX_FILTER = '{'
+for location in ['camera1','dargat']:
+    INBOX_FILTER += 'label:{root}/{location} '.format(root=GMAIL_LABEL_INCOMING_ROOT,location=location)
+INBOX_FILTER += '}'
+INBOX_PURGING_FILTER = 'label:'+GMAIL_LABEL_PROCESSED + ' AND older_than:7d'
 
 #Application config
-ATTACHMENT_REGEX_PATTERN = 'attachmentRXPattern'
+ATTACHMENT_REGEX_PATTERN = r"(?i)^.*\.jpe?g"       # Regex pattern for jpeg images
+CAMERAS_PARENT_RX_PATTERN = r"^{root}\/.*".format(root=GMAIL_LABEL_INCOMING_ROOT)
 
 #Configure Logging
 APPLICATION_LOGGING_LEVEL = logging.INFO  #choose one of NOTSET, DEBUG, INFO, WARN, ERROR, FATAL

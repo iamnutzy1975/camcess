@@ -22,7 +22,7 @@ class TestProcess(BaseUnitTest):
 
         cloud_storage.setup(bucket_name='camcess-bucket'
                 , credentials_file='C:\\code\\sanbox\\camcess\\credentials\\abstract-gizmo-269816-d1cb94a4eea9.json')
-        download_path = cloud_storage.get_object(object_name='IMG_0011.JPG')
+        download_path = cloud_storage.get_object(object_name='/camcess/dargat/20200311192840_RCON0190.JPG')
 
         compressed_image_path = processing.compress(image_path=download_path)
 

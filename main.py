@@ -24,9 +24,12 @@ assert isinstance(processing,IProcessingService)
 
 def process_image(data, context):
     logger.log("process_image", "ENV: {}".format(config.get_env()))
+    for key in data.keys():
+        logger.log("process_image", "data[{}]: {}".format(key,data[key]))
+    for key in context.keys():
+        logger.log("process_image", "context[{}]: {}".format(key,context[key]))
 
     # Get the file that has been uploaded to GCS
-
     cloud_storage.setup(bucket_name=data['bucket'],credentials_file=config.get_service_account_path())
     download_path = cloud_storage.get_object(object_name=data['name'])
 

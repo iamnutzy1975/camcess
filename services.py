@@ -123,9 +123,9 @@ class GCSService(ICloudStorageService):
     def get_object(self, object_name):
         blob = self.bucket.blob(object_name)
         try:
-            path = os.path.join(os.sep, 'c:',os.sep,'tmp', object_name)
+            path = os.path.join(os.sep, 'c:',os.sep,'tmp', os.path.basename(object_name))
         except:
-            path = os.path.join(os.sep, 'tmp', os.sep, object_name)
+            path = os.path.join(os.sep, 'tmp', os.sep, os.path.basename(object_name))
 
         with open(path, 'wb') as file_obj:
             blob.download_to_file(file_obj)
