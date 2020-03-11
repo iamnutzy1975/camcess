@@ -1,5 +1,9 @@
+from credentials.dropbox_credentials import DROPBOX_TOKEN
+import dropbox
 import os
 import logging
+from google.cloud import storage
+from PIL import Image
 
 ENV_DEVELOPMENT = "development"
 ENV_PRODUCTION = "production"
@@ -37,10 +41,8 @@ class DefaultConfigService(IConfigService):
         return os.environ["GCP_PROJECT_ID"]
 
     def get_service_account_path(self):
-        return os.environ["SERVICE_ACCOUNT_NAME"]
-
-    def get_export_bucket(self):
-        return os.environ["EXPORT_BUCKET_NAME"]
+        return os.path.join(os.path.dirname(__file__), 'credentials'
+                     , os.environ["SERVICE_ACCOUNT_NAME"])
 
     def get_env_var(self, key):
         return os.environ.get(key, None)
@@ -83,3 +85,59 @@ class GmailEmailService(IEmailService):
 
     def save_attachment_to_cloud_storage_bucket(self):
         raise NotImplementedError()
+
+# Destination Services
+class IDestinationService(object):
+    def __init__(self):
+        raise NotImplementedError()
+
+    def push_file(self,source_file, destination_file):
+        raise NotImplementedError()
+class DropboxService(IDestinationService):
+
+    def __init__(self):
+        self.dbx = dropbox.Dropbox(DROPBOX_TOKEN)
+
+    def push_file(self, source_file, destination_file):
+        with open(source_file, 'rb') as f:
+            self.dbx.files_upload(f.read(), destination_file)
+
+# Cloud Storage Services
+class ICloudStorageService(object):
+    def __init__(self):
+        raise NotImplementedError
+
+    def setup(self):
+        raise NotImplementedError
+
+    def get_object(self):
+        raise NotImplementedError
+class GCSService(ICloudStorageService):
+    def __init__(self):
+        pass
+
+    def setup(self,bucket_name, credentials_file):
+        self.storage_client = storage.Client.from_service_account_json(credentials_file)
+        self.bucket = self.storage_client.get_bucket(bucket_name)
+
+    def get_object(self, object_name):
+        blob = self.bucket.blob(object_name)
+        with open(object_name, 'wb') as file_obj:
+            blob.download_to_file(file_obj)
+
+# Processing Service
+class IProcessingService(object):
+    def __init__(self):
+        raise NotImplementedError
+class ProcessingService(IProcessingService):
+    def __init__(self):
+        pass
+
+    def compress(self, image_path):
+        picture = Image.open(image_path)
+
+        # set quality= to the preferred quality.
+        # I found that 85 has no difference in my 6-10mb files and that 65 is the lowest reasonable number
+        compressed_filename = "compressed_{}".format(image_path)
+        picture.save(compressed_filename, "JPEG", optimize=True, quality=10)
+        return compressed_filename

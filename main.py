@@ -1,7 +1,9 @@
 from di import container
 from services import IConfigService
 from services import ILoggerService
-from services import IEmailService
+from services import ICloudStorageService
+from services import IDestinationService
+from services import IProcessingService
 
 config = container.instance(IConfigService)
 assert isinstance(config, IConfigService)
@@ -9,24 +11,30 @@ assert isinstance(config, IConfigService)
 logger = container.instance(ILoggerService)
 assert isinstance(logger, ILoggerService)
 
-email = container.instance(IEmailService)
-assert isinstance(email, IEmailService)
+cloud_storage = container.instance(ICloudStorageService)
+assert isinstance(cloud_storage,ICloudStorageService)
 
-def gmailxfr(request):
-    """Responds to any HTTP request.
-    Args:
-        request (flask.Request): HTTP request object.
-    Returns:
-        The response text or any set of values that can be turned into a
-        Response object using
-        `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
-    """
-    logger.log("gmailxfr", "ENV: {}".format(config.get_env()))
-    request_json = request.get_json()
-    if request.args and 'message' in request.args:
-        return request.args.get('message')
-    elif request_json and 'message' in request_json:
-        return request_json['message']
-    else:
-        return f'{config_environment}'.format(config_config_environment=config.get_env())
+destination = container.instance(IDestinationService)
+assert isinstance(destination, IDestinationService)
+
+processing = container.instance(IProcessingService)
+assert isinstance(processing,IProcessingService)
+
+
+def process_image(data, context):
+    logger.log("process_image", "ENV: {}".format(config.get_env()))
+
+    # Get the file that has been uploaded to GCS
+
+    cloud_storage.setup(bucket_name=data['bucket'],credentials_file=config.get_service_account_path())
+    cloud_storage.get_object(object_name=data['name'])
+
+    compressed_image_path = processing.compress(image_path=data['name'])
+
+    destination.push_file(source_file=compressed_image_path
+                          , destination_file='/trailcameras/perfect/{}'.format(compressed_image_path))
+
+    logger.log("process_image", "done")
+
+    return
 

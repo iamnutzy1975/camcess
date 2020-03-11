@@ -6,6 +6,7 @@ sys.path.append(
 )
 from unittests.testconfig import TestConfig
 from unittests.testlogger import TestLogger
+from unittests.testprocess import TestProcess
 
 if __name__ == '__main__':
     test_suite = unittest.TestSuite()
@@ -13,6 +14,7 @@ if __name__ == '__main__':
     # tests
     test_suite.addTest(unittest.makeSuite(TestConfig))
     test_suite.addTest(unittest.makeSuite(TestLogger))
+    test_suite.addTest(unittest.makeSuite(TestProcess))
 
     runner = unittest.TextTestRunner()
     runner.run(test_suite)

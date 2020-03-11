@@ -7,7 +7,7 @@ inject>=3.4.0
 PyYAML>=3.13
 google-api-python-client>=1.6.2
 google-cloud-storage>=1.14.0
-
+pytest>=5.3.4
 dropbox
 Pillow
 
@@ -21,6 +21,6 @@ Pillow
 # scipy==1.3.1
 # numpy
 # sklearn
-# pytest==5.3.4
+#
 # google-cloud-pubsub==0.39.1
 # createsend==4.2.1

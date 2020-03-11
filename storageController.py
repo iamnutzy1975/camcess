@@ -22,8 +22,7 @@ class baseStorageController(object):
 
 class storageController(baseStorageController):
 
-    def __init__(self, project_id, bucket_name, credentials_file):
-        self.project_id = project_id
+    def __init__(self, bucket_name, credentials_file):
         self.storage_client = storage.Client.from_service_account_json(credentials_file)
         self.bucket = self.storage_client.get_bucket(bucket_name)
         self.bucket_name = bucket_name

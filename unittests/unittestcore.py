@@ -1,7 +1,7 @@
 import unittest
 import os
 import yaml
-from services import IConfigService, ILoggerService, IEmailService
+from services import IConfigService, ILoggerService
 from di import container
 
 class BaseUnitTest(unittest.TestCase):
@@ -26,7 +26,5 @@ class BaseUnitTest(unittest.TestCase):
         self.logger = self.container.instance(ILoggerService)
         assert isinstance(self.logger, ILoggerService)
 
-        self.email = self.container.instance(IEmailService)
-        assert isinstance(self.email, IEmailService)
 
 

@@ -16,7 +16,7 @@ logger = loggingController(filename=os.path.splitext(os.path.basename(__file__))
                            ,filepath=CONSTANT.APPLICATION_LOGGING_DIR
                            ,loggingLevel=CONSTANT.APPLICATION_LOGGING_LEVEL)
 
-storage = storageController(project_id=os.environ['GCP_PROJECT_ID'] , bucket_name=CONSTANT.GCS_BUCKET_NAME,
+storage = storageController( bucket_name=CONSTANT.GCS_BUCKET_NAME,
                             credentials_file=CONSTANT.SERVICE_ACCOUNT_CREDENTIALS_PATH)
 
 #  Check inbox, filter if desired using query parameter
