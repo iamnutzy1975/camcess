@@ -38,7 +38,6 @@ def process_image(data, context):
 
     compressed_image_path = processing.compress(image_path=download_path)
 
-    #TODO: remove hardcoded path, make dynamic path with locations and dates structures
     destination.push_file(source_file=compressed_image_path
                           , destination_file='/{}/{}'.format(path,os.path.basename(compressed_image_path)))
 
