@@ -4,6 +4,7 @@ from services import ILoggerService
 from services import ICloudStorageService
 from services import IDestinationService
 from services import IProcessingService
+import os
 
 config = container.instance(IConfigService)
 assert isinstance(config, IConfigService)
@@ -27,12 +28,12 @@ def process_image(data, context):
     # Get the file that has been uploaded to GCS
 
     cloud_storage.setup(bucket_name=data['bucket'],credentials_file=config.get_service_account_path())
-    cloud_storage.get_object(object_name=data['name'])
+    download_path = cloud_storage.get_object(object_name=data['name'])
 
-    compressed_image_path = processing.compress(image_path=data['name'])
+    compressed_image_path = processing.compress(image_path=download_path)
 
     destination.push_file(source_file=compressed_image_path
-                          , destination_file='/trailcameras/perfect/{}'.format(compressed_image_path))
+                          , destination_file='/trailcameras/perfect/{}'.format(os.path.basename(compressed_image_path)))
 
     logger.log("process_image", "done")
 
