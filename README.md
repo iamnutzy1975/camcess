@@ -6,3 +6,9 @@ GCP project to monitor email for image attachement and transfer to cloud storage
 - design final file/folder structure & naming conventions
 - make instructions here for adding a new camera
 - test (load, continuous (10 days)
+- combine config constant into one place
+- clean up tmp directory for windows/unix (two different logics used for
+  same thing in gmailController and constants)
+
+#future features
+- severless email monitor

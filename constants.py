@@ -27,7 +27,7 @@ CAMERAS_PARENT_RX_PATTERN = r"^{root}\/.*".format(root=GMAIL_LABEL_INCOMING_ROOT
 #Configure Logging
 APPLICATION_LOGGING_LEVEL = logging.INFO  #choose one of NOTSET, DEBUG, INFO, WARN, ERROR, FATAL
 if os.name.upper() =='NT':
-	APPLICATION_LOGGING_DIR = 'c:\\temp'
+	APPLICATION_LOGGING_DIR = 'c:\\tmp'
 else:
 	APPLICATION_LOGGING_DIR = '/home/ec2-user/logs'
 SUCCESS = 'SUCCESS'
