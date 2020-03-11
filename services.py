@@ -122,8 +122,15 @@ class GCSService(ICloudStorageService):
 
     def get_object(self, object_name):
         blob = self.bucket.blob(object_name)
-        with open(object_name, 'wb') as file_obj:
+        try:
+            path = os.path.join(os.sep, 'c:',os.sep,'tmp', object_name)
+        except:
+            path = os.path.join(os.sep, 'tmp', os.sep, object_name)
+
+        with open(path, 'wb') as file_obj:
             blob.download_to_file(file_obj)
+
+        return path
 
 # Processing Service
 class IProcessingService(object):
@@ -138,6 +145,6 @@ class ProcessingService(IProcessingService):
 
         # set quality= to the preferred quality.
         # I found that 85 has no difference in my 6-10mb files and that 65 is the lowest reasonable number
-        compressed_filename = "compressed_{}".format(image_path)
+        compressed_filename = '{a}_compressed{b}'.format(a=image_path[:-4],b=image_path[-4:])
         picture.save(compressed_filename, "JPEG", optimize=True, quality=10)
         return compressed_filename
