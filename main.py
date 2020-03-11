@@ -28,6 +28,10 @@ def process_image(data, context):
     for key in data.keys():
         logger.log("process_image", "data[{}]: {}".format(key,data[key]))
 
+    obj_name = data['name']
+    path_breakdown = obj_name.split("/")
+    path = "/".join(path_breakdown[:-1])
+
     # Get the file that has been uploaded to GCS
     cloud_storage.setup(bucket_name=data['bucket'],credentials_file=config.get_service_account_path())
     download_path = cloud_storage.get_object(object_name=data['name'])
@@ -36,7 +40,7 @@ def process_image(data, context):
 
     #TODO: remove hardcoded path, make dynamic path with locations and dates structures
     destination.push_file(source_file=compressed_image_path
-                          , destination_file='/trailcameras/perfect/{}'.format(os.path.basename(compressed_image_path)))
+                          , destination_file='/{}/{}'.format(path,os.path.basename(compressed_image_path)))
 
     logger.log("process_image", "done")
 
