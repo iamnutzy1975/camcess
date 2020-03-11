@@ -6,7 +6,7 @@ import constants as CONSTANT
 import datetime
 
 class gmailController(object):
-    def __init__(self,logger,secretFile,emailAddress):
+    def __init__(self,logger,storage,secretFile,emailAddress):
         try:
 
             scope = ['https://www.googleapis.com/auth/gmail.readonly',
@@ -15,6 +15,7 @@ class gmailController(object):
                         'https://www.googleapis.com/auth/gmail.modify',
                         'https://www.googleapis.com/auth/gmail.labels']
             self.logger = logger
+            self.storage = storage
             self.service = helpers.getGoogleService(secretFile=secretFile, scope=scope, apiName='gmail',
                                                     apiVersion='v1')
             self.emailAddress = emailAddress
@@ -55,9 +56,14 @@ class gmailController(object):
                     file_data = base64.urlsafe_b64decode(attachment['data']
                                                          .encode('UTF-8'))
 
-                    new_file = open("c:\\temp\\attach{}ment.jpg".format(part['filename']), mode="wb")
-                    new_file.write(file_data)
-                    new_file.close()
+                    filename_ts = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S")
+
+
+                    self.storage.upload_object(object_data=file_data
+                                               ,object_key_name='{fts}_{ifn}'.format(ifn=part['filename'],fts=filename_ts))
+                    # new_file = open("c:\\temp\\{}.jpg".format(part['filename']), mode="wb")
+                    # new_file.write(file_data)
+                    # new_file.close()
 
                     self._getGmailLabelId(CONSTANT.GMAIL_LABEL_PROCESSED)
 

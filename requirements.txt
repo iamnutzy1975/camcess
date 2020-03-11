@@ -1,10 +1,26 @@
 # Function dependencies, for example:
 # package>=version
-functions-framework==1.2.0
-inject==3.4.0
-PyYAML==3.13
-#xlrd==1.0.0
-google-api-python-client==1.6.2
-#python-dateutil==2.6.0
-#createsend==4.2.1
+#local only
+#functions-framework>=1.2.0
+
+inject>=3.4.0
+PyYAML>=3.13
+google-api-python-client>=1.6.2
+google-cloud-storage>=1.14.0
+
 dropbox
+Pillow
+
+# xlrd==1.0.0
+# retrying==1.3.3
+# oauth2client==4.1.3
+# requests==2.21.0
+# google-cloud-bigquery==1.9.0
+# python-dateutil==2.7.5
+# pandas==0.25.3
+# scipy==1.3.1
+# numpy
+# sklearn
+# pytest==5.3.4
+# google-cloud-pubsub==0.39.1
+# createsend==4.2.1
