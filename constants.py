@@ -15,8 +15,9 @@ EMAIL_ADDRESS_TO_MONITOR = 'go06041973nut@gmail.com'  #password for account is @
 GMAIL_LABEL_INCOMING_ROOT = 'camcess'
 GMAIL_LABEL_PROCESSED = 'attachmentsaved'
 INBOX_FILTER = '{'
-for location in ['camera1','dargat']:
+for location in ['camera1','dargat','chicken','barbwire']:
     INBOX_FILTER += 'label:{root}/{location} '.format(root=GMAIL_LABEL_INCOMING_ROOT,location=location)
+INBOX_FILTER = INBOX_FILTER.strip()
 INBOX_FILTER += '}'
 INBOX_PURGING_FILTER = 'label:'+GMAIL_LABEL_PROCESSED + ' AND older_than:7d'
 
@@ -29,7 +30,7 @@ APPLICATION_LOGGING_LEVEL = logging.INFO  #choose one of NOTSET, DEBUG, INFO, WA
 if os.name.upper() =='NT':
 	APPLICATION_LOGGING_DIR = 'c:\\tmp'
 else:
-	APPLICATION_LOGGING_DIR = '/home/ec2-user/logs'
+	APPLICATION_LOGGING_DIR = '/var/log'
 SUCCESS = 'SUCCESS'
 FAIL = 'FAIL'
 FORMAT_TIMESTAMP_FILENAME = '%Y%m%d'

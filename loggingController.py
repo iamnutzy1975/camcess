@@ -14,7 +14,7 @@ class loggingController(BaseLogger):
     replicateAsConsoleOutput: show messages writting to log file on console as well.
     '''
 
-    def __init__(self, filename,filepath, loggingLevel,replicateAsConsoleOutput=True):
+    def __init__(self, filename,filepath, loggingLevel,replicateAsConsoleOutput=False):
         # check to ensure file path exists
         if os.path.exists(filepath):
             self.logFileExtension = '.log'

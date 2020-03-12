@@ -33,10 +33,9 @@ class GCSObjectStreamUpload(object):
             self.stop()
 
     def start(self):
-        url = (
-            f'https://www.googleapis.com/upload/storage/v1/b/'
-            f'{self._bucket.name}/o?uploadType=resumable'
-        )
+        url = 'https://www.googleapis.com/upload/storage/v1/b/{bucket_name}/o?uploadType=resumable'\
+            .format(bucket_name=self._bucket.name)
+
         self._request = requests.ResumableUpload(
             upload_url=url, chunk_size=self._chunk_size
         )

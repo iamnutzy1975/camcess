@@ -6,6 +6,20 @@ import constants as CONSTANT
 import datetime
 import re
 
+
+#For simulating emails
+import base64
+from email.mime.audio import MIMEAudio
+from email.mime.base import MIMEBase
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import mimetypes
+import os
+from apiclient import errors
+
+from email import encoders
+
 class gmailController(object):
     def __init__(self,logger,storage,secretFile,emailAddress):
         try:
@@ -13,6 +27,8 @@ class gmailController(object):
             scope = ['https://www.googleapis.com/auth/gmail.readonly',
                         'https://www.googleapis.com/auth/userinfo.email',
                         'https://www.googleapis.com/auth/userinfo.profile',
+                        'https://www.googleapis.com/auth/gmail.compose',
+                        'https://www.googleapis.com/auth/gmail.send',
                         'https://www.googleapis.com/auth/gmail.modify',
                         'https://www.googleapis.com/auth/gmail.labels']
             self.logger = logger
@@ -163,3 +179,74 @@ class gmailController(object):
             return self.service.users().messages().trash(userId=self.emailAddress,id=messageId).execute()
         except errors.HttpError as err:
             self.logger.log('gmailController._getGmailLabelId error: {}'.format(err), level=logging.ERROR)
+
+    def SendMessage(self, message):
+        """Send an email message.
+
+        Args:
+          service: Authorized Gmail API service instance.
+          user_id: User's email address. The special value "me"
+          can be used to indicate the authenticated user.
+          message: Message to be sent.
+
+        Returns:
+          Sent Message.
+        """
+        try:
+
+            mmm = (self.service.users().messages().send(userId=self.emailAddress, body=message).execute())
+            print('Message Id: %s' % mmm['id'])
+            return mmm
+        except Exception as err:
+            print('An error occurred: %s' % err)
+
+    def CreateMessage(self,sender, to, subject, message_text):
+        """Create a message for an email.
+
+        Args:
+          sender: Email address of the sender.
+          to: Email address of the receiver.
+          subject: The subject of the email message.
+          message_text: The text of the email message.
+
+        Returns:
+          An object containing a base64url encoded email object.
+        """
+        message = MIMEText(message_text)
+        message['to'] = to
+        message['from'] = sender
+        message['subject'] = subject
+        return {'raw': base64.urlsafe_b64encode(message.as_string())}
+
+    def CreateMessageWithAttachment(self,sender, to, subject, message_text, file_dir,filename):
+
+        message = MIMEMultipart()
+        message['to'] = to
+        message['from'] = sender
+        message['subject'] = subject
+
+        msg = MIMEText(message_text)
+        message.attach(msg)
+
+        file_dir = CONSTANT.APPLICATION_LOGGING_DIR
+        filename = 'IMG_0005.JPG'
+        with open(os.path.join(file_dir, filename), "rb") as attachment:
+            # The content type "application/octet-stream" means that a MIME attachment is a binary file
+            part = MIMEBase("application", "octet-stream")
+            part.set_payload(attachment.read())
+
+        # Encode to base64
+        encoders.encode_base64(part)
+
+        # Add header
+        part.add_header(
+            "Content-Disposition",
+            f"attachment; filename= {filename}",
+        )
+
+        # Add attachment to your message and convert it to string
+        message.attach(part)
+
+        return {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
+
+

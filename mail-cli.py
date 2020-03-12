@@ -4,7 +4,6 @@ from storageController import storageController
 import logging
 import os
 import constants as CONSTANT
-import glob
 
 # Setup Inbox
 # For now this was done manually
