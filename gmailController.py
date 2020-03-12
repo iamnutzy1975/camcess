@@ -245,7 +245,8 @@ class gmailController(object):
         # Add header
         part.add_header(
             "Content-Disposition",
-            f"attachment; filename= {filename}")
+            f"attachment; filename= {f}".format(f=filename)
+        )
 
         # Add attachment to your message and convert it to string
         message.attach(part)
