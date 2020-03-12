@@ -68,7 +68,11 @@ class gmailController(object):
 
             for part in message['payload']['parts']:
                 #Process jpeg images only that are 30 KB in size or higher
-                if re.match(CONSTANT.ATTACHMENT_REGEX_PATTERN,part['filename']) and part['body']['size'] > 30000:
+                self.logger.log('rocessEmailMessage checking attachment size [{s}] and name [{n}]: '
+                                .format(s=part['body']['size'],n=part['filename'])
+                                , level=logging.INFO)
+                if re.match(CONSTANT.ATTACHMENT_REGEX_PATTERN,part['filename']) \
+                        and part['body']['size'] > CONSTANT.ATTACHMENT_SIZE_MINIMUM:
                     attachment = self.service.users().messages().attachments().get(userId=self.emailAddress
                                         , messageId=emailMessageId,id=part['body']['attachmentId']).execute()
                     file_data = base64.urlsafe_b64decode(attachment['data']
