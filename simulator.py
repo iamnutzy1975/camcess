@@ -3,6 +3,7 @@ from gmailController import gmailController
 from storageController import storageController
 import os
 import constants as CONSTANT
+import random
 
 logger = loggingController(filename=os.path.splitext(os.path.basename(__file__))[0]
                            ,filepath=CONSTANT.APPLICATION_LOGGING_DIR
@@ -19,7 +20,7 @@ message = gmail.CreateMessageWithAttachment(sender='simulator@python.com'
                                   ,subject='camera1'
                                   ,message_text='this is the message text'
                                   ,file_dir=CONSTANT.APPLICATION_LOGGING_DIR
-                                   ,filename='IMG_0005.JPG')
+                                   ,filename='IMG_00{}.JPG'.format(str(random.randint(10,99))))
 
 gmail.SendMessage(message=message)
 

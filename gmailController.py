@@ -232,8 +232,8 @@ class gmailController(object):
         msg = MIMEText(message_text)
         message.attach(msg)
 
-        file_dir = CONSTANT.APPLICATION_LOGGING_DIR
-        filename = 'IMG_0005.JPG'
+        file_dir = file_dir
+        filename = filename
         with open(os.path.join(file_dir, filename), "rb") as attachment:
             # The content type "application/octet-stream" means that a MIME attachment is a binary file
             part = MIMEBase("application", "octet-stream")
