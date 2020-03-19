@@ -20,15 +20,15 @@ class TestProcess(BaseUnitTest):
 
         # Get the file that has been uploaded to GCS
 
-        obj_name = 'camcess/unit_test/20200311194421_RCON0196.JPG'
+        obj_name = 'camcess/unit_test/202003/20200311194421_RCON0196.JPG'
         path_breakdown = obj_name.split("/")
         path = "/".join(path_breakdown[:-1])
 
         cloud_storage.setup(bucket_name='camcess-bucket'
-                , credentials_file='C:\\code\\sanbox\\camcess\\credentials\\abstract-gizmo-269816-d1cb94a4eea9.json')
+                , credentials_file='C:\\code\\sanbox\\camcess\\credentials\\abstract-gizmo-269816-9c206f640ecc.json')
         download_path = cloud_storage.get_object(object_name=obj_name)
 
-        compressed_image_path = processing.compress(image_path=download_path)
+        compressed_image_path = processing.process(image_path=download_path)
 
         destination.push_file(source_file=compressed_image_path
                               , destination_file='/{}/{}'.format(path,os.path.basename(compressed_image_path)))

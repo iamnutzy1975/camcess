@@ -4,6 +4,7 @@ import os
 import logging
 from google.cloud import storage
 from PIL import Image
+import piexif
 
 ENV_DEVELOPMENT = "development"
 ENV_PRODUCTION = "production"
@@ -140,11 +141,20 @@ class ProcessingService(IProcessingService):
     def __init__(self):
         pass
 
-    def compress(self, image_path):
-        picture = Image.open(image_path)
+    def process(self, image_path):
+        img = Image.open(image_path)
+
+        #Date Taken
+        # Either it exists in the picture Exif data (not the case for Reconeco pictures) or we must extract it from
+        # the image using the VISION API.  Best to write it to the Date Taken field and not include two timestamps
+        # in the filename because it's hard to sort by.
+        date_taken = 'todo - date taken'
+
+        #Exif has "tags" fields.  Good spot to write vision API too
+        #Exif has "rating"
 
         # set quality= to the preferred quality.
         # I found that 85 has no difference in my 6-10mb files and that 65 is the lowest reasonable number
-        compressed_filename = '{a}_compressed{b}'.format(a=image_path[:-4],b=image_path[-4:])
-        picture.save(compressed_filename, "JPEG", optimize=True, quality=21
+        compressed_filename = '{a}_p    {b}'.format(a=image_path[:-4],b=image_path[-4:])
+        img.save(compressed_filename, "JPEG", optimize=True, quality=50)
         return compressed_filename

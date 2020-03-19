@@ -11,7 +11,10 @@ import pytz
 
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('--location', help='foo help')
+parser.add_argument('--location', help='name of the location of the camera')
+parser.add_argument('--dir', help='file directory where the attachment is located')
+parser.add_argument('--file', help='filename of the attachment')
+
 args = parser.parse_args()
 
 logger = loggingController(filename=os.path.splitext(os.path.basename(__file__))[0]
@@ -24,9 +27,7 @@ storage = storageController( bucket_name=CONSTANT.GCS_BUCKET_NAME,
 gmail = gmailController(logger=logger, storage=storage, secretFile=CONSTANT.CLIENT_SECRET_GMAIL_CREDENTIALS_PATH
                                   , emailAddress=CONSTANT.EMAIL_ADDRESS_TO_MONITOR)
 
-#file_attachement = 'IMG_00{}.JPG'.format(str(random.randint(10,99)))
-file_attachement = 'IMG_00{}.JPG'.format('66')
-file = os.path.join(CONSTANT.APPLICATION_LOGGING_DIR, file_attachement)
+file = os.path.join(args.dir, args.file)
 img = Image.open(file)
 
 exif_dict = {}
@@ -50,8 +51,8 @@ message = gmail.CreateMessageWithAttachment(sender='simulator@python.com'
                                   ,to='go06041973nut@gmail.com'
                                   ,subject='testing location {}'.format(args.location)
                                   ,message_text='message text from the location {}'.format(args.location)
-                                  ,file_dir=CONSTANT.APPLICATION_LOGGING_DIR
-                                   ,filename=file_attachement)
+                                  ,file_dir=args.dir
+                                   ,filename=args.file)
 
 gmail.SendMessage(message=message)
 

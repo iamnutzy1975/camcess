@@ -36,7 +36,7 @@ def process_image(data, context):
     cloud_storage.setup(bucket_name=data['bucket'],credentials_file=config.get_service_account_path())
     download_path = cloud_storage.get_object(object_name=data['name'])
 
-    compressed_image_path = processing.compress(image_path=download_path)
+    compressed_image_path = processing.process(image_path=download_path)
 
     destination.push_file(source_file=compressed_image_path
                           , destination_file='/{}/{}'.format(path,os.path.basename(compressed_image_path)))
