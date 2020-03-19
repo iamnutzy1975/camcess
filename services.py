@@ -1,10 +1,9 @@
-from credentials.dropbox_credentials import DROPBOX_TOKEN
+from dropbox_credentials import DROPBOX_TOKEN
 import dropbox
 import os
 import logging
 from google.cloud import storage
 from PIL import Image
-import piexif
 
 ENV_DEVELOPMENT = "development"
 ENV_PRODUCTION = "production"

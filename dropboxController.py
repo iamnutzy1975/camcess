@@ -1,4 +1,4 @@
-from credentials.dropbox_credentials import DROPBOX_TOKEN
+from dropbox_credentials import DROPBOX_TOKEN
 import dropbox
 from PIL import Image
 import os
