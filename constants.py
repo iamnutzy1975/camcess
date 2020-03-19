@@ -6,9 +6,9 @@ import logging
 #CLIENT_SECRET_CREDENTIALS_PATH = os.path.join(os.path.dirname(__file__), 'credentials'
 # , 'analyticspros-management-kit-service.json')
 CLIENT_SECRET_GMAIL_CREDENTIALS_PATH = os.path.join(os.path.dirname(__file__), 'credentials'
-                                                    , 'client_secret_407310947692-av6hjvtb9rd60p4sa86qa1egiu75tjv7.apps.googleusercontent.com.json')
+                                                    , 'client_secret_407310947692-dphp4v2cncnkje36f040gs3ldrbqo9su.apps.googleusercontent.com.json')
 SERVICE_ACCOUNT_CREDENTIALS_PATH = os.path.join(os.path.dirname(__file__), 'credentials'
-                                                , 'abstract-gizmo-269816-d1cb94a4eea9.json')
+                                                , 'abstract-gizmo-269816-9c206f640ecc.json')
 
 #Configure inbox to monitor
 EMAIL_ADDRESS_TO_MONITOR = 'go06041973nut@gmail.com'  #password for account is @m@z0namazon

@@ -1,20 +1,16 @@
 import helpers as helpers
-from apiclient import errors
-import base64
 import logging
 import constants as CONSTANT
 import datetime
 import re
+import pytz
 
 
 #For simulating emails
 import base64
-from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
-from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import mimetypes
 import os
 from apiclient import errors
 
@@ -78,7 +74,10 @@ class gmailController(object):
                     file_data = base64.urlsafe_b64decode(attachment['data']
                                                          .encode('UTF-8'))
 
-                    filename_ts = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S")
+                    now =  datetime.datetime.now(pytz.timezone("Canada/Mountain"))
+                    filename_cloudreceived_ts = now.strftime("%Y%m%d%H%M%S")
+                    year_month_ts = now.strftime("%Y-%m")
+
 
                     camera_location_path = ''
                     for id in message['labelIds']:
@@ -90,9 +89,10 @@ class gmailController(object):
 
 
                     self.storage.upload_object(object_data=file_data
-                                               ,object_key_name='{path}/{fts}_{ifn}'.format(path=camera_location_path,
+                                               ,object_key_name='{path}/{ymts}/{fts}_{ifn}'.format(path=camera_location_path,
+                                                                                            ymts=year_month_ts,
                                                                                             ifn=part['filename']
-                                                                                            ,fts=filename_ts))
+                                                                                            ,fts=filename_cloudreceived_ts))
                     # new_file = open("c:\\temp\\{}.jpg".format(part['filename']), mode="wb")
                     # new_file.write(file_data)
                     # new_file.close()
