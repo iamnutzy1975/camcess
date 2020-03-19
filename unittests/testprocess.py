@@ -20,7 +20,7 @@ class TestProcess(BaseUnitTest):
 
         # Get the file that has been uploaded to GCS
 
-        obj_name = 'camcess/unit_test/202003/20200311194421_RCON0196.JPG'
+        obj_name = 'camcess/barbwire/2020-03/20200318233403_KAS2-RCON0238.JPG'
         path_breakdown = obj_name.split("/")
         path = "/".join(path_breakdown[:-1])
 
