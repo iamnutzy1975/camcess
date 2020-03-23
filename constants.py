@@ -23,7 +23,7 @@ INBOX_PURGING_FILTER = 'label:'+GMAIL_LABEL_PROCESSED + ' AND older_than:7d'
 
 #Application config
 ATTACHMENT_REGEX_PATTERN = r"(?i)^.*\.jpe?g"       # Regex pattern for jpeg images
-ATTACHMENT_SIZE_MINIMUM = 10000 #in KB
+ATTACHMENT_SIZE_MINIMUM = 3000 #in KB
 CAMERAS_PARENT_RX_PATTERN = r"^{root}\/.*".format(root=GMAIL_LABEL_INCOMING_ROOT)
 
 #Configure Logging
