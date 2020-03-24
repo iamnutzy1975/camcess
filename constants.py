@@ -15,7 +15,7 @@ EMAIL_ADDRESS_TO_MONITOR = 'go06041973nut@gmail.com'  #password for account is @
 GMAIL_LABEL_INCOMING_ROOT = 'camcess'
 GMAIL_LABEL_PROCESSED = 'attachmentsaved'
 INBOX_FILTER = '{'
-for location in ['camera1','dargat','chicken','barbwire']:
+for location in ['camera1','dargat','chicken','barbwire','unit_test']:
     INBOX_FILTER += 'label:{root}/{location} '.format(root=GMAIL_LABEL_INCOMING_ROOT,location=location)
 INBOX_FILTER = INBOX_FILTER.strip()
 INBOX_FILTER += '}'
