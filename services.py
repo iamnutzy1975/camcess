@@ -4,6 +4,7 @@ import os
 import logging
 from google.cloud import storage
 from PIL import Image
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 ENV_DEVELOPMENT = "development"
 ENV_PRODUCTION = "production"
