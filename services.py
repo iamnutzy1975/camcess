@@ -9,7 +9,6 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 import piexif
 import piexif.helper
-import json
 
 ENV_DEVELOPMENT = "development"
 ENV_PRODUCTION = "production"
