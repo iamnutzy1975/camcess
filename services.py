@@ -7,6 +7,10 @@ from PIL import Image
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
+import piexif
+import piexif.helper
+import json
+
 ENV_DEVELOPMENT = "development"
 ENV_PRODUCTION = "production"
 ENV_STAGING = 'staging'
@@ -143,6 +147,11 @@ class ProcessingService(IProcessingService):
         pass
 
     def process(self, image_path):
+        zeroth_ifd = {
+            piexif.ImageIFD.ImageDescription: image_path.split('.')[0].split('_')[1]
+        }
+        exif_dict = {"0th":zeroth_ifd}
+        exif_bytes = piexif.dump(exif_dict)
         img = Image.open(image_path)
 
         #Date Taken
@@ -157,5 +166,5 @@ class ProcessingService(IProcessingService):
         # set quality= to the preferred quality.
         # I found that 85 has no difference in my 6-10mb files and that 65 is the lowest reasonable number
         compressed_filename = '{a}_p{b}'.format(a=image_path[:-4],b=image_path[-4:])
-        img.save(compressed_filename, "JPEG", optimize=True, quality=85)
+        img.save(compressed_filename, "JPEG", optimize=True, exif=exif_bytes, quality=85)
         return compressed_filename
