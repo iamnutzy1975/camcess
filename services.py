@@ -157,5 +157,5 @@ class ProcessingService(IProcessingService):
         # set quality= to the preferred quality.
         # I found that 85 has no difference in my 6-10mb files and that 65 is the lowest reasonable number
         compressed_filename = '{a}_p{b}'.format(a=image_path[:-4],b=image_path[-4:])
-        img.save(compressed_filename, "JPEG", optimize=True, quality=50)
+        img.save(compressed_filename, "JPEG", optimize=True, quality=85)
         return compressed_filename

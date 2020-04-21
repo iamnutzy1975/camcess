@@ -77,7 +77,7 @@ class gmailController(object):
 
                     now =  datetime.datetime.now(pytz.timezone("Canada/Mountain"))
                     filename_cloudreceived_ts = now.strftime("%Y%m%d%H%M%S")
-                    year_month_ts = now.strftime("%Y-%m")
+                    attachment_ts = now.strftime("%Y-%m-%d")
 
 
                     camera_location_path = ''
@@ -91,7 +91,7 @@ class gmailController(object):
 
                     self.storage.upload_object(object_data=file_data
                                                ,object_key_name='{path}/{ymts}/{fts}_{ifn}'.format(path=camera_location_path,
-                                                                                            ymts=year_month_ts,
+                                                                                            ymts=attachment_ts,
                                                                                             ifn=part['filename']
                                                                                             ,fts=filename_cloudreceived_ts))
                     # new_file = open("c:\\temp\\{}.jpg".format(part['filename']), mode="wb")
