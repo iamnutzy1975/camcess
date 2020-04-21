@@ -58,6 +58,7 @@ class gmailController(object):
         except errors.HttpError as err:
             self.logger.log('gmailController.checkInBoxAn error: {}'.format(err), level=logging.ERROR)
 
+    # Throughput of this function is 45 messages/sec on my laptop
     def processEmailMessage(self,emailMessageId):
         try:
             message = self.service.users().messages().get(userId=self.emailAddress, id=emailMessageId).execute()
